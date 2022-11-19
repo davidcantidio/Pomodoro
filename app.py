@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import ttk
 from config import *
 from tkfontawesome import icon_to_image
 import time
@@ -15,26 +16,30 @@ icon = PhotoImage(file="icon/pomodoro.png")
 root.tk.call('wm', 'iconphoto', root._w, icon)
 root.iconphoto(False, icon)
 
-#Clock
-# Declaration of variables
-work_mins=StringVar()
-small_break_mins=StringVar()
-big_break_mins=StringVar()
+#Settings frame
+settings_frame = Frame(root, bg="pink")
+settings_frame.pack(side = LEFT)
   
-# setting the default value as 0
-work_mins.set("00")
-small_break_mins.set("00")
-big_break_mins.set("00")
+#Control frame
+controls_frame = Frame(root, bg="blue")
+controls_frame.pack(side = RIGHT)
+
+#Display frame
+display_frame = Frame(root, bg="red")
+display_frame.pack(side = BOTTOM)
+pb = ttk.Progressbar(display_frame, orient='horizontal', mode='indeterminate')
+pb.pack(side = LEFT)
+
 
 # Use of Entry class to take input from the user
-work_minsEntry= Scale(root, from_=30, to=90, orient=HORIZONTAL)
-work_minsEntry.place(x=80,y=20)
+work_minsEntry= Scale(settings_frame, from_=30, to=90, orient=HORIZONTAL, label="Trabalho (min)", length=270)
+work_minsEntry.pack(padx=5, pady=2, side=TOP)
   
-small_break_minsEntry= Scale(root, from_=5, to=30, orient=HORIZONTAL)
-small_break_minsEntry.place(x=130,y=20)
+small_break_minsEntry= Scale(settings_frame, from_=5, to=30, orient=HORIZONTAL, label="Pausa (min)", length=150)
+small_break_minsEntry.pack(padx=5, pady=2, side=TOP)
   
-big_break_minsEntry= Scale(root, from_=10, to=60, orient=HORIZONTAL)
-big_break_minsEntry.place(x=180,y=20)
+big_break_minsEntry= Scale(settings_frame, from_=10, to=60, orient=HORIZONTAL, label="Intervalo (min)", length=180)
+big_break_minsEntry.pack(padx=5, pady=2, side=TOP)
   
   
 def submit():
@@ -94,13 +99,13 @@ btn_pause_icon = icon_to_image("pause", fill="#3a3b3c", scale_to_width=15)
 
 #Reset Burron
 
-btn_reset = Button(root, image = btn_reset_icon, width=30, height=30)
-btn_playpause= Button(root, image = btn_start_icon, width=30, height=30, command=submit)
+btn_reset = Button(controls_frame, image = btn_reset_icon, width=30, height=30)
+btn_playpause= Button(controls_frame, image = btn_start_icon, width=30, height=30, command=submit)
 
 
 
-btn_playpause.place(x = 70,y = 120)
-btn_reset.place(x = 70,y = 120)
+btn_playpause.pack(padx=5, pady=20, side=BOTTOM)
+btn_reset.pack(padx=5, pady=20, side=BOTTOM)
 
 
 
