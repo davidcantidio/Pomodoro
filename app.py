@@ -18,30 +18,67 @@ root.iconphoto(False, icon)
 
 #Settings frame
 settings_frame = Frame(root, bg="pink")
-settings_frame.pack(side = LEFT)
+settings_frame.place(x=10, y=10)
+
+    #Frame with horizontal bars to choose periods os intervals
+periods_frame = Frame(settings_frame, bg="yellow")
+periods_frame.pack(side = LEFT)
+cicles_frame = Frame(settings_frame, bg="red")
+cicles_frame.pack(side = RIGHT, fill=Y)
+
+        # Use of Scale class so the user can select amount of minutes for each step of pomodoro
+work_minsEntry= Scale(periods_frame, from_=30, to=90, orient=HORIZONTAL, label="Trabalho (min)", length=270)
+work_minsEntry.pack(padx=5, pady=2, side=TOP, fill='x')
+
+small_break_minsEntry= Scale(periods_frame, from_=5, to=30, orient=HORIZONTAL, label="Pausa menor (min)", length=150)
+small_break_minsEntry.pack(padx=5, pady=2, side=TOP, fill='x')
   
+big_break_minsEntry= Scale(periods_frame, from_=10, to=60, orient=HORIZONTAL, label="Pausa maior (min)", length=180)
+big_break_minsEntry.pack(padx=5, pady=2, side=TOP, fill='x')
+  
+cicleEntry = Scale(cicles_frame, from_=2, to=6, orient=VERTICAL, label="Ciclos até pausa maior")
+cicleEntry.pack(padx=5, pady=2, side=RIGHT, fill=Y)
+
 #Control frame
 controls_frame = Frame(root, bg="blue")
-controls_frame.pack(side = RIGHT)
+controls_frame.place(x=500, y=10, height=100)
+    #Buttons
+        #Play/Pause button
+btn_playpause_icon = icon_to_image("play", fill="#3a3b3c", scale_to_width=15)
+btn_playpause= Button(controls_frame, image = btn_playpause_icon, width=30, height=30, command=print("play"))
+btn_playpause.pack(padx=5, pady=2)
+
+
+        #Reset Button
+btn_reset_icon = icon_to_image("history", fill="#3a3b3c", scale_to_width=15)
+btn_reset = Button(controls_frame, image = btn_reset_icon, width=30, height=30)
+btn_reset.pack(padx=5, pady=2)
+#btn_pause_icon = icon_to_image("pause", fill="#3a3b3c", scale_to_width=15)
+
+
+
+
+
+
+
+
 
 #Display frame
 display_frame = Frame(root, bg="red")
-display_frame.pack(side = BOTTOM)
-pb = ttk.Progressbar(display_frame, orient='horizontal', mode='indeterminate')
-pb.pack(side = LEFT)
+display_frame.place(x=10, y=250)
 
 
-# Use of Entry class to take input from the user
-work_minsEntry= Scale(settings_frame, from_=30, to=90, orient=HORIZONTAL, label="Trabalho (min)", length=270)
-work_minsEntry.pack(padx=5, pady=2, side=TOP)
-  
-small_break_minsEntry= Scale(settings_frame, from_=5, to=30, orient=HORIZONTAL, label="Pausa (min)", length=150)
-small_break_minsEntry.pack(padx=5, pady=2, side=TOP)
-  
-big_break_minsEntry= Scale(settings_frame, from_=10, to=60, orient=HORIZONTAL, label="Intervalo (min)", length=180)
-big_break_minsEntry.pack(padx=5, pady=2, side=TOP)
-  
-  
+    #progress bars
+        #Work progress bar
+pb_work = ttk.Progressbar(display_frame, orient='horizontal', mode='indeterminate')
+pb_work.pack(side = LEFT)
+        # Small break progress bar
+pb_sm_break = ttk.Progressbar(display_frame, orient='horizontal', mode='indeterminate')
+pb_sm_break.pack(side = LEFT)
+
+        # Small breakIntervalo progress bar
+pb_big_break = ttk.Progressbar(display_frame, orient='horizontal', mode='indeterminate')
+pb_big_break.pack(side = LEFT)
 def submit():
     try:
         # the input provided by the user is
@@ -90,24 +127,6 @@ def change_btn ():
 
         btn_start.config(image=btn_pause_icon)
         btn_start.image = btn_pause_icon
-
-
-
-btn_start_icon = icon_to_image("play", fill="#3a3b3c", scale_to_width=15)
-btn_reset_icon = icon_to_image("history", fill="#3a3b3c", scale_to_width=15)
-btn_pause_icon = icon_to_image("pause", fill="#3a3b3c", scale_to_width=15)
-
-#Reset Burron
-
-btn_reset = Button(controls_frame, image = btn_reset_icon, width=30, height=30)
-btn_playpause= Button(controls_frame, image = btn_start_icon, width=30, height=30, command=submit)
-
-
-
-btn_playpause.pack(padx=5, pady=20, side=BOTTOM)
-btn_reset.pack(padx=5, pady=20, side=BOTTOM)
-
-
 
 
 root.mainloop()
