@@ -27,13 +27,13 @@ cicles_frame = Frame(settings_frame, bg="red")
 cicles_frame.pack(side = RIGHT, fill=Y)
 
         # Use of Scale class so the user can select amount of minutes for each step of pomodoro
-work_minsEntry= Scale(periods_frame, from_=30, to=90, orient=HORIZONTAL, label="Trabalho (min)", length=270)
+work_minsEntry= Scale(periods_frame, from_=30, to=90, resolution=5, orient=HORIZONTAL, label="Trabalho (min)", length=270)
 work_minsEntry.pack(padx=5, pady=2, side=TOP, fill='x')
 
-small_break_minsEntry= Scale(periods_frame, from_=5, to=30, orient=HORIZONTAL, label="Pausa menor (min)", length=150)
+small_break_minsEntry= Scale(periods_frame, from_=5, to=30, resolution=5, orient=HORIZONTAL, label="Pausa menor (min)", length=150)
 small_break_minsEntry.pack(padx=5, pady=2, side=TOP, fill='x')
   
-big_break_minsEntry= Scale(periods_frame, from_=10, to=60, orient=HORIZONTAL, label="Pausa maior (min)", length=180)
+big_break_minsEntry= Scale(periods_frame, from_=10, to=60, resolution=5, orient=HORIZONTAL, label="Pausa maior (min)", length=180)
 big_break_minsEntry.pack(padx=5, pady=2, side=TOP, fill='x')
   
 cicleEntry = Scale(cicles_frame, from_=2, to=6, orient=VERTICAL, label="Ciclos até pausa maior")
