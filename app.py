@@ -17,27 +17,24 @@ root.iconphoto(False, icon)
 
 #Clock
 # Declaration of variables
-hour=StringVar()
-minute=StringVar()
-second=StringVar()
+work_mins=StringVar()
+small_break_mins=StringVar()
+big_break_mins=StringVar()
   
 # setting the default value as 0
-hour.set("00")
-minute.set("00")
-second.set("00")
+work_mins.set("00")
+small_break_mins.set("00")
+big_break_mins.set("00")
 
 # Use of Entry class to take input from the user
-hourEntry= Entry(root, width=3, font=("Arial",18,""),
-                 textvariable=hour)
-hourEntry.place(x=80,y=20)
+work_minsEntry= Scale(root, from_=30, to=90, orient=HORIZONTAL)
+work_minsEntry.place(x=80,y=20)
   
-minuteEntry= Entry(root, width=3, font=("Arial",18,""),
-                   textvariable=minute)
-minuteEntry.place(x=130,y=20)
+small_break_minsEntry= Scale(root, from_=5, to=30, orient=HORIZONTAL)
+small_break_minsEntry.place(x=130,y=20)
   
-secondEntry= Entry(root, width=3, font=("Arial",18,""),
-                   textvariable=second)
-secondEntry.place(x=180,y=20)
+big_break_minsEntry= Scale(root, from_=10, to=60, orient=HORIZONTAL)
+big_break_minsEntry.place(x=180,y=20)
   
   
 def submit():
