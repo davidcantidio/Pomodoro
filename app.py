@@ -17,22 +17,44 @@ class App(tk.Tk):
                 while secs > 0 and mins > 0:
                     secs-= 1
                     remaining_secs.set(secs)
-                    self.working_clock.set(f'{mins}:{secs}')
+                    self.current_clock_timer.set(f'{mins}:{secs}')
                     time.sleep(1)
                     print(secs)
                     self.update()
                 mins -= 1
                 remaining_minutes.set(mins)
                 secs = 60
-            cicles -= 1
-            remaining_cicles.set(cicles)
-            if cicles == 1: 
-                self.next_step_text.set("Pausa longa")
-                long_break = self.bg_break_amount.get()
-                print(long_break)
-                self.next_setp_value.set(long_break)
-            
-            
+            if cicles > 0:
+                self.startSmBreakTimer(self.remaining_secs, self.sm_break_amount, remaining_cicles)
+                break
+            else:
+                self.startBgBreakTimer() 
+
+    def startSmBreakTimer(self, remaining_secs, remaining_minutes, remaining_cicles) :
+            mins = int(remaining_minutes.get())
+            mins -= 1
+            remaining_minutes.set(mins)
+
+            secs = int(remaining_secs.get())
+            secs = 60
+            cicles = int(remaining_cicles.get())
+            while cicles > 0:
+                while mins > 0:
+                    while secs > 0 and mins > 0:
+                        secs-= 1
+                        remaining_secs.set(secs)
+                        self.working_clock.set(f'{mins}:{secs}')
+                        time.sleep(1)
+                        print(secs)
+                        self.update()
+                    mins -= 1
+                    remaining_minutes.set(mins)
+                    secs = 60
+                cicles -= 1
+                remaining_cicles.set(cicles)
+                self.current_clock_title.set("Pausa curta")
+                self.startWorkTimer(self.remaining_secs, self.working_amount, self.cicles_amount )
+                
                 
 
      
@@ -62,7 +84,7 @@ class App(tk.Tk):
         cicles_frame.pack(side = 'right', fill='y')
 
             #container to show whats happening to the timer
-        display_frame = tk.Frame(self, bg="red")
+        display_frame = tk.Frame(self)
         display_frame.place(x=10, y=250)
 
             #container with the control buttons 
@@ -79,36 +101,42 @@ class App(tk.Tk):
         self.working_amount_entry.pack(padx=5, pady=2, side='top', fill='x')
         #Define the default remaining seconds in countdown
         self.remaining_secs = tk.StringVar(display_frame, "00")
-        self.remaining_secs_label = tk.Label(display_frame, textvariable=self.remaining_secs)
+        self.remaining_secs_label = tk.Label(display_frame, width=40, height=40, textvariable=self.remaining_secs)
 
+        def current_clock():
+            pass
         
-        self.working_clock = tk.StringVar(display_frame, f'{self.working_amount.get()}:{self.remaining_secs.get()}')
-        self.working_clock_title_label = tk.Label(display_frame, justify=tk.LEFT, text="Trabalhe:")
-        self.working_clock_title_label.grid(row=0, column=0)
+        def next_step(): 
+            pass
 
-        self.working_clock_label = tk.Label(display_frame, textvariable=self.working_clock, justify=tk.LEFT)
-        self.working_clock_label.grid(row=1, column=0)
+        self.current_clock_timer = tk.StringVar(display_frame, f'{self.working_amount.get()}:{self.remaining_secs.get()}')
+        self.current_clock_title = tk.StringVar(display_frame, "Trabalhe")
+        self.current_clock_title_label = tk.Label(display_frame, font=("Helvetica", 10), justify=tk.LEFT, textvariable=self.current_clock_title)
+        self.current_clock_title_label.grid(row=0, column=0, sticky=tk.W)
+
+        self.current_clock_label = tk.Label(display_frame, font=("Helvetica", 16), textvariable=self.current_clock_timer, justify=tk.LEFT)
+        self.current_clock_label.grid(row=1, column=0, sticky=tk.W)
 
       
-        self.next_step_label = tk.Label(display_frame, text="Depois >", justify=tk.LEFT)
-        self.next_step_label.grid(row=0, column=1)    
+        self.next_step_label = tk.Label(display_frame, padx=20, font=("Helvetica", 10), text="em seguida >>>", justify=tk.LEFT)
+        self.next_step_label.grid(row=0, column=1, rowspan=2, sticky=tk.W)    
 
-        self.next_step_text = tk.StringVar(display_frame, "Pausa curta")
+        self.next_step_text = tk.StringVar(display_frame, "Pausa curta")    
         self.next_setp_text_label = tk.Label(display_frame, textvariable=self.next_step_text)
-        self.next_setp_text_label.grid(row=0, column=2)
+        self.next_setp_text_label.grid(row=0, column=2, sticky=tk.W)
 
           #Define and display the period in minutes of the small break
         self.sm_break_amount = tk.StringVar(summary_frame)
         self.sm_break_amount_entry = tk.Scale(periods_frame, variable=self.sm_break_amount, from_=sm_break_min, to=sm_break_max, resolution=5, orient='horizontal', label='Pausa menor', length=270)
         self.sm_break_amount_entry.pack(padx=5, pady=2, side='top', fill='x')
-        self.sm_break_amount_label = tk.Label(summary_frame, textvariable=self.sm_break_amount)
+        self.sm_break_amount_label = tk.Label(summary_frame, font=("Helvetica", 16), textvariable=self.sm_break_amount)
         self.sm_break_amount_label.grid(row=0, column=3)
 
         self.next_step_value = tk.StringVar(display_frame)
         small_break_default = self.sm_break_amount.get()
         self.next_step_value.set(small_break_default)
-        self.next_step_value_label = tk.Label(display_frame, textvariable=self.next_step_value)
-        self.next_step_value_label.grid(row=1, column=2)
+        self.next_step_value_label = tk.Label(display_frame, font=("Helvetica", 16), textvariable=self.next_step_value)
+        self.next_step_value_label.grid(row=1, column=2, sticky=tk.W)
 
         # self.rest_time_label = tk.Label(display_frame, textvariable=self.working_clock, justify=tk.LEFT)
         # self.working_clock_label.grid(row=1, column=0)
